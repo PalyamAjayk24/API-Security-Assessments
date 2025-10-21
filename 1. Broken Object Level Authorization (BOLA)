@@ -71,3 +71,6 @@ o	The backend must verify that the logged-in user owns the object they’re tryi
 3.	Use access control checks consistently on every API endpoint.
 4.	Avoid exposing predictable IDs (use UUIDs if possible, but still check ownership!).
 5.	Apply least privilege and role-based access control (RBAC) where needed.
+
+
+https://www.notion.so/1-Broken-Object-Level-Authorization-BOLA-2936732ed66280d0b3b2eabc3cd3da81
