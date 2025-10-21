@@ -1,6 +1,73 @@
+# 1. Broken Object Level Authorization (BOLA)
 
-🧠 What is BOLA?
+---
 
-**Broken Object Level Authorization (BOLA)** occurs when an API fails to properly check if the authenticated user is authorized to access or manipulate a specific object (like a user, order, or file).  
-Attackers can simply change the object ID in the request to access or modify someone else’s data.
+## 🧠 What is BOLA?
 
+**BOLA** (Broken Object Level Authorization) occurs when an API **does not properly check** whether a user has permission to access or change a specific item (called an "object").
+
+An object can be:
+- A **user's profile** (personal details, settings)
+- An **order** (a product purchase, transaction)
+- A **message** (email, chat, notification)
+- A **file** (document, image)
+
+This means a user can simply **change the object ID** (usually in the URL or request) and **access someone else’s data**. The API fails to stop the user from seeing or modifying this data.
+
+---
+
+## 🔥 Why is BOLA Dangerous?
+
+Without proper checks, anyone can **access, modify, or delete someone else's data** just by changing the object ID in the URL. This can lead to:
+
+- **Data leaks**: Users can see sensitive information that isn’t theirs.
+- **Account takeover**: Users can change someone else’s account details.
+- **Fraud**: Malicious users can manipulate or misuse others’ information.
+- **Loss of trust**: Leaking private data can damage the reputation of your app or company.
+- **Compliance issues**: Violates data protection laws like GDPR, HIPAA, etc.
+
+---
+
+## 🧪 How Does BOLA Work?
+
+Here’s a simple example of how **BOLA** works:
+
+1. **User A** is logged in and makes a request to view their order:
+
+GET /api/orders/1001
+
+2. The API does not check if User A is the actual owner of order 1001.
+
+3. User A changes the order ID in the URL:
+GET /api/orders/1002
+
+4. If the API responds with data from order 1002 (which belongs to User B), then BOLA exists.
+
+
+🛠️ How to Recognize BOLA
+You can often identify BOLA by:
+•	Logging in as a regular user
+•	Finding an API endpoint that uses an ID (e.g. /users/123, /orders/456)
+•	Changing that ID to another number or object ID
+•	Checking if the API allows access to data that shouldn’t belong to your account
+If yes, the API is not checking object ownership properly — that’s a BOLA vulnerability.
+
+
+
+
+🚨 Impact
+•	Unauthorized access to personal or sensitive user data
+•	Unauthorized modification or deletion of other users’ resources
+•	Escalation to full account compromise
+•	Reputation damage and legal penalties for insecure systems
+
+
+
+✅ Recommendation (Fix)
+To prevent BOLA:
+1.	Always check object ownership on the server-side.
+o	The backend must verify that the logged-in user owns the object they’re trying to access.
+2.	Never rely only on frontend restrictions like hiding buttons or links.
+3.	Use access control checks consistently on every API endpoint.
+4.	Avoid exposing predictable IDs (use UUIDs if possible, but still check ownership!).
+5.	Apply least privilege and role-based access control (RBAC) where needed.
