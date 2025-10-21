@@ -1,1 +1,6 @@
 
+🧠 What is BOLA?
+
+**Broken Object Level Authorization (BOLA)** occurs when an API fails to properly check if the authenticated user is authorized to access or manipulate a specific object (like a user, order, or file).  
+Attackers can simply change the object ID in the request to access or modify someone else’s data.
+
